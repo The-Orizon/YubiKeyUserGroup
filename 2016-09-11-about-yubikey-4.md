@@ -28,6 +28,14 @@ Yubikey
 
 Universal 2FA 是 [FIDO Alliance][fido] 制定的新一代基于 Challenge-Response 的二步验证机制，[Yubico][yubico] 作为 FIDO 的成员之一当然是不遗余力地推出了多款 U2F USB Token，[Yubikey 4][yk] 就是一款集成了 [U2F][u2f] 的产品。[Yubikey 4][yk] 的 U2F 功能是开箱即用的；插入 Yubikey，打开网站的设备注册，当绿灯闪烁的时候轻触按钮，便可提高账户安全性。
 
+根据[Yubico的说法](https://www.yubico.com/products/yubikey-hardware/fido-u2f-security-key/#toggle-id-3)，Yubikey的U2F可以与无限多组网站进行关联。 实现机制见[Yubico的博客](https://www.yubico.com/2014/11/yubicos-u2f-key-wrapping/)。
+
+大意如下:
+
+U2F标准中是支持两种方式： 1)是把Key Pair存到Yubikey里，但是这样的话有存储上限； 2)是让网站那一侧存储生成的Public Key和被Yubikey加密过的Private Key，认证的时候把这两个都发给Yubikey，这样Yubikey就拿设备主密钥解密，从而有了这个Private Key，从而可以实现无限多组U2F认证。  而这种方式虽然从机制是来说是安全的，但是毕竟Private Key离开了设备，并不令人开心。于是Yubikey的实现方案是引入一个随机数Nonce，网站那一侧存Nonce，认证的时候把Nonce发到Yubikey上，从而重生成出原来的Private Key。
+
+另外，一个有趣的事实是，大部分密码学系统中，只保证从Public Key生成Private Key是困难的，而反过来由Private Key生成Public Key一般很容易。见[这篇讨论](http://stackoverflow.com/questions/696472/given-a-private-key-is-it-possible-to-derive-its-public-key)。
+
 ### OTP
 
 [Yubikey 4][yk] 的 OTP 功能并不仅仅指其 [Yubico OTP][yubico-otp] 功能，它包括：
