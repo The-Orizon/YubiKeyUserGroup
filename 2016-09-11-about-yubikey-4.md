@@ -26,7 +26,15 @@ Yubikey
 
 ### U2F
 
-Universal 2FA 是 [FIDO Alliance][fido] 制定的新一代基于 Challenge-Response 的二步验证机制，[Yubico][yubico] 作为 FIDO 的成员之一当然是不遗余力地推出了多款 U2F USB Token，[Yubikey 4][yk] 就是一款集成了 [U2F][u2f] 的产品。[Yubikey 4][yk] 的 U2F 功能是开箱即用的；插入 Yubikey，打开网站的设备注册，当绿灯闪烁的时候轻触按钮，便可提高账户安全性。
+Universal 2FA 是 [FIDO Alliance][fido] 制定的新一代基于 Challenge-Response 的二步验证机制，
+
+[Yubico][yubico] 作为 FIDO 的成员之一当然是不遗余力地推出了多款 U2F USB Token，
+
+[Yubikey 4][yk] 就是一款集成了 [U2F][u2f] 的产品。
+
+[Yubikey 4][yk] 的 U2F 功能是开箱即用的；
+
+插入 Yubikey，打开网站的设备注册，当绿灯闪烁的时候轻触按钮，便可提高账户安全性。
 
 根据 [Yubico FAQ][u2f-faq-3]，Yubikey 的 U2F 可以与无限多组网站进行关联。实现机制见 [YUBICO’S TAKE ON U2F KEY WRAPPING][u2f-key-wrapping]。
 
@@ -35,14 +43,22 @@ Universal 2FA 是 [FIDO Alliance][fido] 制定的新一代基于 Challenge-Respo
 U2F标准中是支持以下方式： 
 
  - 是把 KeyPair 存到 Yubikey 里，但是这样的话有存储上限
- - 是让网站那一侧存储生成的 PublicKey 和被 Yubikey 加密过的 PrivateKey，
-    认证的时候把这两个都发给 Yubikey，这样 Yubikey 就拿设备主密钥解密，
-    从而有了这个 PrivateKey，从而可以实现无限多组 U2F 认证。 
-    而这种方式虽然从机制是来说是安全的，但是毕竟 PrivateKey 离开了设备，并不令人开心。
-    于是 Yubikey 的实现方案是引入一个随机数 Nonce，网站那一侧存 Nonce，
-    认证的时候把 Nonce 发到 Yubikey 上，从而重生成出原来的 PrivateKey。
 
-另外，一个有趣的事实是，大部分密码学系统中，只保证从 PublicKey 生成 PrivateKey 是困难的，而反过来由 PrivateKey 生成 PublicKey 一般很容易。见 [Given a private key, is it possible to derive its public key?][stackoverflow-696472]。
+ - 是让网站那一侧存储生成的 PublicKey 和被 Yubikey 加密过的 PrivateKey，
+
+   认证的时候把这两个都发给 Yubikey，这样 Yubikey 就拿设备主密钥解密，
+
+   从而有了这个 PrivateKey，从而可以实现无限多组 U2F 认证。 
+
+   而这种方式虽然从机制是来说是安全的，但是毕竟 PrivateKey 离开了设备，并不令人开心。
+
+   于是 Yubikey 的实现方案是引入一个随机数 Nonce，网站那一侧存 Nonce，
+
+   认证的时候把 Nonce 发到 Yubikey 上，从而重生成出原来的 PrivateKey。
+
+另外，一个有趣的事实是，大部分密码学系统中，只保证从 PublicKey 生成 PrivateKey 是困难的，而反过来由 PrivateKey 生成 PublicKey 一般很容易。
+
+见 [Given a private key, is it possible to derive its public key?][stackoverflow-696472]。
 
 ### OTP
 
